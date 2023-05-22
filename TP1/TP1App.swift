@@ -12,7 +12,7 @@ import SwiftUI
 struct TP1App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FilmListView()
         }
     }
 }
