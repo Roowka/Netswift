@@ -13,17 +13,15 @@ struct ShortFilmData : Decodable, Hashable{
     let overview:String
     let poster_path:String
     let genre_ids: [Int]
+    let vote_average:Float
     
     func get_poster() -> String{
         return "https://www.themoviedb.org/t/p/w154/"+self.poster_path
     }
     
-    
-//    init(id: Int, original_title: String, overview: String, poster_path: String) {
-//        self.original_title = original_title
-//        self.overview = overview
-//        self.poster_path = poster_path
-//        self.id = id
-//    }
+    func getStars() -> Float{
+        let nbStars = round((vote_average/2)*10) / 10
+        return nbStars
+    }
 
 }

@@ -11,6 +11,8 @@ struct FilmMenuGenre: View {
     
     @State var filmListGenre: FilmGenre? = nil
     
+    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+    
     func fetch(url:String) async -> FilmGenre?{
                 let filmUrl = URL(string: url)!
                 let session = URLSession.shared
@@ -81,7 +83,7 @@ struct FilmMenuGenre: View {
         .background(.black)
         .onAppear{
             Task{
-                filmListGenre = await fetch(url: "https://api.themoviedb.org/3/genre/movie/list?api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                filmListGenre = await fetch(url: "https://api.themoviedb.org/3/genre/movie/list?"+api_key)
             }
         }
     }

@@ -12,6 +12,8 @@ struct FilmListByGenre: View {
     var idGenre:Int
     var nameGenre:String
     
+    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+    
     init(idGenre:Int, nameGenre:String){
         self.idGenre = idGenre
         self.nameGenre = nameGenre
@@ -70,6 +72,8 @@ struct FilmListByGenre: View {
                                                 .font(.headline)
                                                 .frame(width: 175, height: 75)
                                             
+                                            Text(String(format: "%.1f", film.getStars()) + "/5 ⭐")
+                                            
                                             Text(film.overview)
                                                 .frame(width: 200, height: 130)
                                         }
@@ -93,7 +97,7 @@ struct FilmListByGenre: View {
         .background(.black)
         .onAppear{
             Task{
-                filmListByGenre = await fetch(url: "https://api.themoviedb.org/3/discover/movie?api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                filmListByGenre = await fetch(url: "https://api.themoviedb.org/3/discover/movie?"+api_key)
             }
         }
     }

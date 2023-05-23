@@ -17,9 +17,10 @@ struct ContentView: View {
     @State var film: Film? = nil
     
     let movie_id:Int
+    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
     
     func fetch() async -> Film?{
-                let filmUrl = URL(string: "https://api.themoviedb.org/3/movie/"+String(movie_id)+"?api_key=9a8f7a5168ace33d2334ba1fe14a83fb")!
+                let filmUrl = URL(string: "https://api.themoviedb.org/3/movie/"+String(movie_id)+"?"+api_key)!
                 let session = URLSession.shared
                 do {
                     let request = URLRequest(url: filmUrl)
@@ -48,6 +49,7 @@ struct ContentView: View {
                     HStack{
                         AsyncImage(url: URL(string: "https://www.themoviedb.org/t/p/w780/"+film.backdrop_path))
                             .frame(width: 200, height: 200)
+                            .padding(.top, -50)
                     }
                     
                     HStack{
@@ -64,6 +66,20 @@ struct ContentView: View {
                     
                     HStack{
                         Text(String(film.runtime) + " minutes")
+                        Spacer()
+                        Button(action: {
+                            if let url = URL(string: "https://www.youtube.com/watch?v=b7D1l9ho6ZI") {
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            HStack{
+                                Text("Trailer")
+                                    .foregroundColor(Color.white)
+                                    .frame(width: 75, height: 25)
+                                    .background(RoundedRectangle(cornerRadius: 25)
+                                        .fill(.gray).shadow(radius: 10))
+                            }
+                        }
                         Spacer()
                         Text(film.getStars())
                     }
@@ -89,20 +105,14 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        if let url = URL(string: "https://www.youtube.com/watch?v=b7D1l9ho6ZI") {
-                            UIApplication.shared.open(url)
-                        }
-                    }) {
-                        HStack{
-                            Text("Watch Now")
-                                .foregroundColor(Color.white)
-                                .frame(width: 300, height: 50)
-                                .background(RoundedRectangle(cornerRadius: 25)
-                                    .fill(.red).shadow(radius: 10))
-                        }
+                    HStack{
+                        Text("Watch Now")
+                            .foregroundColor(Color.white)
+                            .frame(width: 300, height: 50)
+                            .background(RoundedRectangle(cornerRadius: 25)
+                                .fill(.red).shadow(radius: 10))
                     }
-                    
+    
                     Spacer();
                 }
                 

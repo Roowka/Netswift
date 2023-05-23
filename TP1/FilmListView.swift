@@ -12,6 +12,8 @@ struct FilmListView: View {
     @State var filmList: ShortFilm? = nil
     @State var filmListTopRated: ShortFilm? = nil
     
+    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+    
     func fetch(url:String) async -> ShortFilm?{
                 let filmUrl = URL(string: url)!
                 let session = URLSession.shared
@@ -146,9 +148,9 @@ struct FilmListView: View {
             .background(.black)
             .onAppear{
                 Task{
-                    filmList = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                    filmList = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&"+api_key)
                     
-                    filmListTopRated = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                    filmListTopRated = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&"+api_key)
                     
                 }
             }
