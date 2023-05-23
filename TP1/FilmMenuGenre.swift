@@ -52,7 +52,7 @@ struct FilmMenuGenre: View {
                         ForEach(filmListGenre.genres, id: \.self){
                             genre in
                             HStack{
-                                NavigationLink(destination: FilmListByGenre()){
+                                NavigationLink(destination: FilmListByGenre(idGenre: genre.id, nameGenre: genre.name)){
                                     Text(genre.name)
                                 }
                             }

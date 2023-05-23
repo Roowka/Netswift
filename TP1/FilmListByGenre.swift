@@ -9,6 +9,14 @@ import SwiftUI
 
 struct FilmListByGenre: View {
     
+    var idGenre:Int
+    var nameGenre:String
+    
+    init(idGenre:Int, nameGenre:String){
+        self.idGenre = idGenre
+        self.nameGenre = nameGenre
+    }
+    
     @State var filmListByGenre: ShortFilm? = nil
     
     func fetch(url:String) async -> ShortFilm?{
@@ -35,7 +43,44 @@ struct FilmListByGenre: View {
     
     var body: some View {
         VStack{
-            Text("Hello world bg")
+            if let filmListByGenre = self.filmListByGenre{
+                
+                HStack() {
+                    Text(nameGenre)
+                        .font(.title)
+                        .frame(width: 200, height: 100)
+                    
+                    Spacer()
+                    
+                    Text("﹀")
+                }
+                
+                ScrollView(.vertical){
+                    ForEach(filmListByGenre.results, id: \.self){
+                        film in
+                        ForEach(film.genre_ids, id: \.self){
+                            genre in
+                            if(genre == self.idGenre){
+                                NavigationLink(destination: ContentView(id: film.id)){
+                                    HStack{
+                                        AsyncImage(url: URL(string: film.get_poster()))
+                                            .frame(width: 154, height: 235)
+                                        VStack{
+                                            Text(film.original_title)
+                                                .font(.headline)
+                                                .frame(width: 175, height: 75)
+                                            
+                                            Text(film.overview)
+                                                .frame(width: 200, height: 130)
+                                        }
+                                    }
+                                    .padding()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         .frame(
               minWidth: 0,
@@ -48,7 +93,7 @@ struct FilmListByGenre: View {
         .background(.black)
         .onAppear{
             Task{
-                filmListByGenre = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                filmListByGenre = await fetch(url: "https://api.themoviedb.org/3/discover/movie?api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
             }
         }
     }
@@ -56,6 +101,6 @@ struct FilmListByGenre: View {
 
 struct FilmListByGenre_Previews: PreviewProvider {
     static var previews: some View {
-        FilmListByGenre()
+        FilmListByGenre(idGenre: 1, nameGenre: "Test")
     }
 }

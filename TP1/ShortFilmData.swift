@@ -12,6 +12,7 @@ struct ShortFilmData : Decodable, Hashable{
     var original_title: String;
     let overview:String
     let poster_path:String
+    let genre_ids: [Int]
     
     func get_poster() -> String{
         return "https://www.themoviedb.org/t/p/w154/"+self.poster_path
