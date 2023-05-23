@@ -16,6 +16,7 @@ class Film : Decodable{
     let tagline:String
     let poster_path:String
     let backdrop_path:String
+    let runtime:Int
     
     struct DataFilmGenre: Decodable, Identifiable, Hashable{
         let id: Int
@@ -23,7 +24,7 @@ class Film : Decodable{
     }
     
     
-    init(original_title:String, overview:String, vote_average:Float, release_date:String, genres:Array<DataFilmGenre>, tagline:String, poster_path:String, backdrop_path:String) {
+    init(original_title:String, overview:String, vote_average:Float, release_date:String, genres:Array<DataFilmGenre>, tagline:String, poster_path:String, backdrop_path:String, runtime:Int) {
         self.original_title = original_title
         self.overview = overview
         self.vote_average = vote_average
@@ -32,6 +33,7 @@ class Film : Decodable{
         self.tagline = tagline
         self.poster_path = poster_path
         self.backdrop_path = backdrop_path
+        self.runtime = runtime
     }
     
     func getStars() -> String{

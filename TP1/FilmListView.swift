@@ -52,7 +52,9 @@ struct FilmListView: View {
                     
                     Spacer()
                     
-                    Text("Films")
+                    NavigationLink(destination: FilmMenuGenre()){
+                        Text("Films")
+                    }
                     
                     Spacer()
                     
@@ -85,8 +87,12 @@ struct FilmListView: View {
                                                 Text(film.original_title)
                                                     .font(.headline)
                                                     .frame(width: 154, height: 75)
+                                                
+                                                Text(film.overview)
+                                                    .frame(width: 154, height: 75)
                                             }
                                         }
+                                        
                                     }
                                 }
                             }
@@ -115,6 +121,9 @@ struct FilmListView: View {
                                                 
                                                 Text(film.original_title)
                                                     .font(.headline)
+                                                    .frame(width: 154, height: 75)
+                                                
+                                                Text(film.overview)
                                                     .frame(width: 154, height: 75)
                                             }
                                         }

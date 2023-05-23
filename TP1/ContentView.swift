@@ -41,52 +41,54 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
-        VStack {
-            if let film = self.film {
-                
-                HStack{
-                    AsyncImage(url: URL(string: "https://www.themoviedb.org/t/p/w780/"+film.backdrop_path))
-                        .frame(width: 200, height: 200)
-                }
-
-                HStack{
-                  
-                    AsyncImage(url: URL(string: "https://www.themoviedb.org/t/p/w154/"+film.poster_path))
-                        .frame(width: 180, height: 200)
+        ScrollView(.vertical) {
+            VStack {
+                if let film = self.film {
                     
-                    Text(film.original_title)
-                        .padding(.top, 100)
-                        .font(.largeTitle)
-                        .frame(width: 200, height: 250)
-
-                }
-                
-                HStack{
-                    Text(film.getStars())
-                }
-                .padding()
-
-                HStack{
-                    
-                    Text(film.getReleaseYear())
-                    
-                    Text("-")
-                    
-                    ForEach(film.genres){
-                        item in
-                        Text(item.name + ",")
+                    HStack{
+                        AsyncImage(url: URL(string: "https://www.themoviedb.org/t/p/w780/"+film.backdrop_path))
+                            .frame(width: 200, height: 200)
                     }
-                }
-                Spacer()
-                
-                HStack{
-                    Text(film.overview)
-                }
-                .frame(width: 350, height: 150)
-                
-                Spacer()
-                
+                    
+                    HStack{
+                        
+                        AsyncImage(url: URL(string: "https://www.themoviedb.org/t/p/w154/"+film.poster_path))
+                            .frame(width: 180, height: 200)
+                        
+                        Text(film.original_title)
+                            .padding(.top, 100)
+                            .font(.largeTitle)
+                            .frame(width: 200, height: 250)
+                        
+                    }
+                    
+                    HStack{
+                        Text(String(film.runtime) + " minutes")
+                        Spacer()
+                        Text(film.getStars())
+                    }
+                    .padding()
+                    
+                    HStack{
+                        
+                        Text(film.getReleaseYear())
+                        
+                        Text("-")
+                        
+                        ForEach(film.genres){
+                            item in
+                            Text(item.name + ",")
+                        }
+                    }
+                    Spacer()
+                    
+                    HStack{
+                        Text(film.overview)
+                    }
+                    .frame(width: 350, height: 120)
+                    
+                    Spacer()
+                    
                     Button(action: {
                         if let url = URL(string: "https://www.youtube.com/watch?v=b7D1l9ho6ZI") {
                             UIApplication.shared.open(url)
@@ -98,28 +100,28 @@ struct ContentView: View {
                                 .frame(width: 300, height: 50)
                                 .background(RoundedRectangle(cornerRadius: 25)
                                     .fill(.red).shadow(radius: 10))
+                        }
                     }
-                }
                     
-                Spacer();
+                    Spacer();
+                }
+                
             }
-            
+            .onAppear{
+                Task{
+                    film = await fetch();
+                }
+            }
         }
         .frame(
-              minWidth: 0,
-              maxWidth: .infinity,
-              minHeight: 0,
-              maxHeight: .infinity,
-              alignment: .topLeading
-            )
+            minWidth: 0,
+            maxWidth: .infinity,
+            minHeight: 0,
+            maxHeight: .infinity,
+            alignment: .topLeading
+        )
         .foregroundColor(.white)
         .background(.black)
-        
-        .onAppear{
-            Task{
-                film = await fetch();
-            }
-        }
     }
 }
 
