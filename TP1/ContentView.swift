@@ -9,13 +9,17 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
+    
+    init(id:Int){
+        self.movie_id = id
+    }
 
     @State var film: Film? = nil
     
-    let movie_id:String = "502356"
+    let movie_id:Int
     
     func fetch() async -> Film?{
-                let filmUrl = URL(string: "https://api.themoviedb.org/3/movie/"+movie_id+"?api_key=9a8f7a5168ace33d2334ba1fe14a83fb")!
+                let filmUrl = URL(string: "https://api.themoviedb.org/3/movie/"+String(movie_id)+"?api_key=9a8f7a5168ace33d2334ba1fe14a83fb")!
                 let session = URLSession.shared
                 do {
                     let request = URLRequest(url: filmUrl)
@@ -121,6 +125,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(id: 502356)
     }
 }

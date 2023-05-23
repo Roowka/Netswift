@@ -36,51 +36,88 @@ struct FilmListView: View {
     
     
     var body: some View {
-        VStack{
+        
+        NavigationView {
             
-            HStack{
-                Image("NetflixLogo")
-                    .resizable()
-                    .frame(width: 40.0, height: 65.0)
+            VStack{
                 
-                Spacer()
-                
-                Text("Series")
-                
-                Spacer()
-                
-                Text("Films")
-                
-                Spacer()
-                
-                Text("My list")
-            }
-            .padding()
-            
-            
-            ScrollView(.vertical) {
-                HStack() {
-                    Text("Popular movies")
-                        .font(.largeTitle)
-                        .frame(width: 250, height: 100)
+                HStack{
+                    Image("NetflixLogo")
+                        .resizable()
+                        .frame(width: 40.0, height: 65.0)
                     
                     Spacer()
                     
-                    Text("﹀")
+                    Text("Series")
+                    
+                    Spacer()
+                    
+                    Text("Films")
+                    
+                    Spacer()
+                    
+                    Text("My list")
                 }
+                .padding()
                 
-                ScrollView(.horizontal) {
-                    VStack{
-                        if let filmList = self.filmList {
-                            HStack{
-                                ForEach(filmList.results, id: \.self) { film in
-                                    VStack{
-                                        AsyncImage(url: URL(string: film.get_poster()))
-                                            .frame(width: 154, height: 235)
-                                        
-                                        Text(film.original_title)
-                                            .font(.headline)
-                                            .frame(width: 154, height: 75)
+                
+                ScrollView(.vertical) {
+                    HStack() {
+                        Text("Popular movies")
+                            .font(.largeTitle)
+                            .frame(width: 250, height: 100)
+                        
+                        Spacer()
+                        
+                        Text("﹀")
+                    }
+                    
+                    ScrollView(.horizontal) {
+                        VStack{
+                            if let filmList = self.filmList {
+                                HStack{
+                                    ForEach(filmList.results, id: \.self) { film in
+                                        NavigationLink(destination: ContentView(id: film.id)){
+                                            VStack{
+                                                AsyncImage(url: URL(string: film.get_poster()))
+                                                    .frame(width: 154, height: 235)
+                                                
+                                                Text(film.original_title)
+                                                    .font(.headline)
+                                                    .frame(width: 154, height: 75)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    HStack() {
+                        Text("Top rated")
+                            .font(.largeTitle)
+                            .frame(width: 150, height: 100)
+                        
+                        Spacer()
+                        
+                        Text("﹀")
+                    }
+                    
+                    ScrollView(.horizontal) {
+                        VStack{
+                            if let filmListTopRated = self.filmListTopRated {
+                                HStack{
+                                    ForEach(filmListTopRated.results, id: \.self) { film in
+                                        NavigationLink(destination: ContentView(id: film.id)){
+                                            VStack{
+                                                AsyncImage(url: URL(string: film.get_poster()))
+                                                    .frame(width: 154, height: 235)
+                                                
+                                                Text(film.original_title)
+                                                    .font(.headline)
+                                                    .frame(width: 154, height: 75)
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -88,52 +125,23 @@ struct FilmListView: View {
                     }
                 }
                 
-                HStack() {
-                    Text("Top rated")
-                        .font(.largeTitle)
-                        .frame(width: 150, height: 100)
-                    
-                    Spacer()
-                    
-                    Text("﹀")
-                }
-                
-                ScrollView(.horizontal) {
-                    VStack{
-                        if let filmListTopRated = self.filmListTopRated {
-                            HStack{
-                                ForEach(filmListTopRated.results, id: \.self) { film in
-                                    VStack{
-                                        AsyncImage(url: URL(string: film.get_poster()))
-                                            .frame(width: 154, height: 235)
-                                        
-                                        Text(film.original_title)
-                                            .font(.headline)
-                                            .frame(width: 154, height: 75)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
-            
-        }
-        .frame(
-              minWidth: 0,
-              maxWidth: .infinity,
-              minHeight: 0,
-              maxHeight: .infinity,
-              alignment: .topLeading
-            )
-        .foregroundColor(.white)
-        .background(.black)
-        .onAppear{
-            Task{
-                filmList = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
-                
-                filmListTopRated = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
-                
+            .frame(
+                  minWidth: 0,
+                  maxWidth: .infinity,
+                  minHeight: 0,
+                  maxHeight: .infinity,
+                  alignment: .topLeading
+                )
+            .foregroundColor(.white)
+            .background(.black)
+            .onAppear{
+                Task{
+                    filmList = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                    
+                    filmListTopRated = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&api_key=9a8f7a5168ace33d2334ba1fe14a83fb")
+                    
+                }
             }
         }
     }
