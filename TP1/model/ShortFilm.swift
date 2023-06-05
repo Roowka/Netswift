@@ -10,6 +10,6 @@ import Foundation
 
 class ShortFilm : Decodable{
     
-    var results: [ShortFilmData]
+    let results: [ShortFilmData]
     
 }

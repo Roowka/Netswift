@@ -4,10 +4,11 @@
 //
 //  Created by digital on 23/05/2023.
 //
+//  data for film genre
 
 import Foundation
 
 struct FilmGenreData : Decodable, Hashable{
-    var id:Int
-    var name:String
+    let id:Int
+    let name:String
 }

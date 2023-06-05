@@ -4,11 +4,12 @@
 //
 //  Created by digital on 23/05/2023.
 //
+//  list of film genre
 
 import Foundation
 
 class FilmGenre : Decodable{
     
-    var genres: [FilmGenreData]
+    let genres: [FilmGenreData]
     
 }

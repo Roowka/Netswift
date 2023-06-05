@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  FilmDetails.swift
 //  TP1
 //
 //  Created by digital on 04/04/2023.
@@ -8,38 +8,18 @@
 import SwiftUI
 import UIKit
 
-struct ContentView: View {
+struct FilmDetails: View {
     
     init(id:Int){
         self.movie_id = id
+        self.trailer_url = ""
     }
 
+    @State var trailer_url:String
     @State var film: Film? = nil
+    @StateObject private var apiController = FilmDetailsController()
     
     let movie_id:Int
-    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
-    
-    func fetch() async -> Film?{
-                let filmUrl = URL(string: "https://api.themoviedb.org/3/movie/"+String(movie_id)+"?"+api_key)!
-                let session = URLSession.shared
-                do {
-                    let request = URLRequest(url: filmUrl)
-                    let (data, response) = try await session.data(for: request)
-                        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                        print("Réponse invalide")
-                        return nil
-                    }
-                    guard let jsonString = String(data: data, encoding: .utf8) else {
-                        print("Impossible de convertir les données en chaîne JSON")
-                        return nil
-                    }
-                    let responseFilm = try JSONDecoder().decode(Film.self, from:data)
-                    return responseFilm
-                } catch {
-                    print(error)
-                    return nil
-                }
-    }
     
     var body: some View {
         ScrollView(.vertical) {
@@ -68,7 +48,7 @@ struct ContentView: View {
                         Text(String(film.runtime) + " minutes")
                         Spacer()
                         Button(action: {
-                            if let url = URL(string: "https://www.youtube.com/watch?v=b7D1l9ho6ZI") {
+                            if let url = URL(string: trailer_url) {
                                 UIApplication.shared.open(url)
                             }
                         }) {
@@ -119,7 +99,8 @@ struct ContentView: View {
             }
             .onAppear{
                 Task{
-                    film = await fetch();
+                    film = await apiController.fetch(movie_id: movie_id);
+                    trailer_url = await apiController.getTrailerUrl(movie_id: movie_id)
                 }
             }
         }
@@ -135,8 +116,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct FilmDetails_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(id: 502356)
+        FilmDetails(id: 502356)
     }
 }

@@ -4,15 +4,16 @@
 //
 //  Created by digital on 17/04/2023.
 //
+// Data for film details
 
 import Foundation
 
 class Film : Decodable{
-    var original_title: String;
-    var overview: String;
-    var vote_average: Float;
-    var release_date: String;
-    var genres: Array<DataFilmGenre>;
+    let original_title: String;
+    let overview: String;
+    let vote_average: Float;
+    let release_date: String;
+    let genres: Array<DataFilmGenre>;
     let tagline:String
     let poster_path:String
     let backdrop_path:String
@@ -36,8 +37,9 @@ class Film : Decodable{
         self.runtime = runtime
     }
     
+    // Function that returns the average rating of a movie in stars
     func getStars() -> String{
-        var stars = Int(self.vote_average / 2)
+        let stars = Int(self.vote_average / 2)
         var starsString = ""
         for _ in 0...stars{
             starsString += "⭐"
@@ -45,6 +47,7 @@ class Film : Decodable{
         return starsString
     }
     
+    // Function that returns the release year of a movie
     func getReleaseYear() -> String{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

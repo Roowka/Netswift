@@ -8,8 +8,8 @@
 import Foundation
 
 struct ShortFilmData : Decodable, Hashable{
-    var id:Int
-    var original_title: String;
+    let id:Int
+    let original_title: String;
     let overview:String
     let poster_path:String
     let genre_ids: [Int]

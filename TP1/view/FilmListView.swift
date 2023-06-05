@@ -11,31 +11,7 @@ struct FilmListView: View {
     
     @State var filmList: ShortFilm? = nil
     @State var filmListTopRated: ShortFilm? = nil
-    
-    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
-    
-    func fetch(url:String) async -> ShortFilm?{
-                let filmUrl = URL(string: url)!
-                let session = URLSession.shared
-                do {
-                    let request = URLRequest(url: filmUrl)
-                    let (data, response) = try await session.data(for: request)
-                        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                        print("Réponse invalide")
-                        return nil
-                    }
-                    guard let jsonString = String(data: data, encoding: .utf8) else {
-                        print("Impossible de convertir les données en chaîne JSON")
-                        return nil
-                    }
-                    let responseList = try JSONDecoder().decode(ShortFilm.self, from:data)
-                    return responseList
-                } catch {
-                    print(error)
-                    return nil
-                }
-    }
-    
+    @StateObject private var apiController = FilmListViewController()
     
     var body: some View {
         
@@ -81,7 +57,7 @@ struct FilmListView: View {
                             if let filmList = self.filmList {
                                 HStack{
                                     ForEach(filmList.results, id: \.self) { film in
-                                        NavigationLink(destination: ContentView(id: film.id)){
+                                        NavigationLink(destination: FilmDetails(id: film.id)){
                                             VStack{
                                                 AsyncImage(url: URL(string: film.get_poster()))
                                                     .frame(width: 154, height: 235)
@@ -116,7 +92,7 @@ struct FilmListView: View {
                             if let filmListTopRated = self.filmListTopRated {
                                 HStack{
                                     ForEach(filmListTopRated.results, id: \.self) { film in
-                                        NavigationLink(destination: ContentView(id: film.id)){
+                                        NavigationLink(destination: FilmDetails(id: film.id)){
                                             VStack{
                                                 AsyncImage(url: URL(string: film.get_poster()))
                                                     .frame(width: 154, height: 235)
@@ -148,9 +124,9 @@ struct FilmListView: View {
             .background(.black)
             .onAppear{
                 Task{
-                    filmList = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&"+api_key)
+                    filmList = await apiController.fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&")
                     
-                    filmListTopRated = await fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&"+api_key)
+                    filmListTopRated = await apiController.fetch(url: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&")
                     
                 }
             }

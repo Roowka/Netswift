@@ -10,30 +10,7 @@ import SwiftUI
 struct FilmMenuGenre: View {
     
     @State var filmListGenre: FilmGenre? = nil
-    
-    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
-    
-    func fetch(url:String) async -> FilmGenre?{
-                let filmUrl = URL(string: url)!
-                let session = URLSession.shared
-                do {
-                    let request = URLRequest(url: filmUrl)
-                    let (data, response) = try await session.data(for: request)
-                        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                        print("Réponse invalide")
-                        return nil
-                    }
-                    guard let jsonString = String(data: data, encoding: .utf8) else {
-                        print("Impossible de convertir les données en chaîne JSON")
-                        return nil
-                    }
-                    let responseList = try JSONDecoder().decode(FilmGenre.self, from:data)
-                    return responseList
-                } catch {
-                    print(error)
-                    return nil
-                }
-    }
+    @StateObject private var apiController = FilmMenuGenreController()
     
     var body: some View {
         VStack{
@@ -83,7 +60,7 @@ struct FilmMenuGenre: View {
         .background(.black)
         .onAppear{
             Task{
-                filmListGenre = await fetch(url: "https://api.themoviedb.org/3/genre/movie/list?"+api_key)
+                filmListGenre = await apiController.fetch()
             }
         }
     }
