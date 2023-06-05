@@ -8,13 +8,12 @@
 import Foundation
 
 class FilmListByGenreController: ObservableObject {
-    
-    let url:String = "https://api.themoviedb.org/3/discover/movie?"
-    let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+
+    let url:String = "https://api.themoviedb.org/3/discover/movie?api_key=9a8f7a5168ace33d2334ba1fe14a83fb&sort_by=popularity.desc&with_genres="
 
     // Function to get a list of the latest movies from TMDB api
-    func fetch() async -> ShortFilm?{
-        let filmUrl = URL(string: url + api_key)!
+    func fetch(id_genre:Int) async -> ShortFilm?{
+        let filmUrl = URL(string: url + String(id_genre))!
         let session = URLSession.shared
         do {
             let request = URLRequest(url: filmUrl)

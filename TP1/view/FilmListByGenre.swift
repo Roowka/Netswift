@@ -37,27 +37,22 @@ struct FilmListByGenre: View {
                 ScrollView(.vertical){
                     ForEach(filmListByGenre.results, id: \.self){
                         film in
-                        ForEach(film.genre_ids, id: \.self){
-                            genre in
-                            if(genre == self.idGenre){
-                                NavigationLink(destination: FilmDetails(id: film.id)){
-                                    HStack{
-                                        AsyncImage(url: URL(string: film.get_poster()))
-                                            .frame(width: 154, height: 235)
-                                        VStack{
-                                            Text(film.original_title)
-                                                .font(.headline)
-                                                .frame(width: 175, height: 75)
-                                            
-                                            Text(String(format: "%.1f", film.getStars()) + "/5 ⭐")
-                                            
-                                            Text(film.overview)
-                                                .frame(width: 200, height: 130)
-                                        }
-                                    }
-                                    .padding()
+                        NavigationLink(destination: FilmDetails(id: film.id)){
+                            HStack{
+                                AsyncImage(url: URL(string: film.get_poster()))
+                                    .frame(width: 154, height: 235)
+                                VStack{
+                                    Text(film.original_title)
+                                        .font(.headline)
+                                        .frame(width: 175, height: 75)
+                                    
+                                    Text(String(format: "%.1f", film.getStars()) + "/5 ⭐")
+                                    
+                                    Text(film.overview)
+                                        .frame(width: 200, height: 130)
                                 }
                             }
+                            .padding()
                         }
                     }
                 }
@@ -74,7 +69,7 @@ struct FilmListByGenre: View {
         .background(.black)
         .onAppear{
             Task{
-                filmListByGenre = await apiController.fetch()
+                filmListByGenre = await apiController.fetch(id_genre: idGenre)
             }
         }
     }
