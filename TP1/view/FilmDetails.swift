@@ -65,18 +65,18 @@ struct FilmDetails: View {
                     }
                     .padding()
                     
-                        HStack{
-                            Spacer()
-                            Text(film.getReleaseYear())
-                            Text("-")
-                            ScrollView(.horizontal) {
-                                HStack{
-                                ForEach(film.genres){
-                                    item in
-                                        Text(item.name + ",")
-                                    }
+                    HStack{
+                        Spacer()
+                        Text(film.getReleaseYear())
+                        Text("-")
+                        ScrollView(.horizontal) {
+                            HStack{
+                            ForEach(film.genres){
+                                item in
+                                    Text(item.name + ",")
                                 }
                             }
+                        }
                     }
                         .padding()
                     Spacer()
