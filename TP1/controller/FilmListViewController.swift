@@ -10,9 +10,10 @@ import Foundation
 class FilmListViewController: ObservableObject {
     
     let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+    let currentLocale = "&language="+(Locale.preferredLanguages.first ?? "fr-FR");
 
     func fetch(url:String) async -> ShortFilm?{
-        let filmUrl = URL(string: url + api_key)!
+        let filmUrl = URL(string: url + api_key + currentLocale)!
         let session = URLSession.shared
         do {
             let request = URLRequest(url: filmUrl)

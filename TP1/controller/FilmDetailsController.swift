@@ -12,9 +12,10 @@ class FilmDetailsController: ObservableObject {
     
     let api_url:String = "https://api.themoviedb.org/3/movie/"
     let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+    let currentLocale = "&language="+(Locale.preferredLanguages.first ?? "fr-FR");
 
     func fetch(movie_id:Int) async -> Film?{
-        let filmUrl = URL(string: api_url+String(movie_id)+"?"+api_key)!
+        let filmUrl = URL(string: api_url+String(movie_id)+"?"+api_key + currentLocale)!
         let session = URLSession.shared
         do {
             let request = URLRequest(url: filmUrl)
@@ -37,7 +38,7 @@ class FilmDetailsController: ObservableObject {
     
     //  Function to get videos related to a movie
     func fetch_videos(url:String) async -> FilmVideos?{
-        let filmUrl = URL(string: url)!
+        let filmUrl = URL(string: url + currentLocale)!
         let session = URLSession.shared
         do {
             let request = URLRequest(url: filmUrl)

@@ -42,7 +42,7 @@ struct FilmListByGenre: View {
                                 AsyncImage(url: URL(string: film.get_poster()))
                                     .frame(width: 154, height: 235)
                                 VStack{
-                                    Text(film.original_title)
+                                    Text(film.title)
                                         .font(.headline)
                                         .frame(width: 175, height: 75)
                                     

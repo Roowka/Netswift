@@ -62,7 +62,7 @@ struct FilmListView: View {
                                                 AsyncImage(url: URL(string: film.get_poster()))
                                                     .frame(width: 154, height: 235)
                                                 
-                                                Text(film.original_title)
+                                                Text(film.title)
                                                     .font(.headline)
                                                     .frame(width: 154, height: 75)
                                                 
@@ -97,7 +97,7 @@ struct FilmListView: View {
                                                 AsyncImage(url: URL(string: film.get_poster()))
                                                     .frame(width: 154, height: 235)
                                                 
-                                                Text(film.original_title)
+                                                Text(film.title)
                                                     .font(.headline)
                                                     .frame(width: 154, height: 75)
                                                 

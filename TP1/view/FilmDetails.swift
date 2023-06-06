@@ -37,7 +37,7 @@ struct FilmDetails: View {
                         AsyncImage(url: URL(string: "https://www.themoviedb.org/t/p/w154/"+film.poster_path))
                             .frame(width: 180, height: 200)
                         
-                        Text(film.original_title)
+                        Text(film.title)
                             .padding(.top, 100)
                             .font(.largeTitle)
                             .frame(width: 200, height: 250)
@@ -65,17 +65,20 @@ struct FilmDetails: View {
                     }
                     .padding()
                     
-                    HStack{
-                        
-                        Text(film.getReleaseYear())
-                        
-                        Text("-")
-                        
-                        ForEach(film.genres){
-                            item in
-                            Text(item.name + ",")
-                        }
+                        HStack{
+                            Spacer()
+                            Text(film.getReleaseYear())
+                            Text("-")
+                            ScrollView(.horizontal) {
+                                HStack{
+                                ForEach(film.genres){
+                                    item in
+                                        Text(item.name + ",")
+                                    }
+                                }
+                            }
                     }
+                        .padding()
                     Spacer()
                     
                     HStack{

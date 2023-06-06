@@ -9,7 +9,7 @@
 import Foundation
 
 class Film : Decodable{
-    let original_title: String;
+    let title: String;
     let overview: String;
     let vote_average: Float;
     let release_date: String;
@@ -25,8 +25,8 @@ class Film : Decodable{
     }
     
     
-    init(original_title:String, overview:String, vote_average:Float, release_date:String, genres:Array<DataFilmGenre>, tagline:String, poster_path:String, backdrop_path:String, runtime:Int) {
-        self.original_title = original_title
+    init(title:String, overview:String, vote_average:Float, release_date:String, genres:Array<DataFilmGenre>, tagline:String, poster_path:String, backdrop_path:String, runtime:Int) {
+        self.title = title
         self.overview = overview
         self.vote_average = vote_average
         self.release_date = release_date

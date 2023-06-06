@@ -11,10 +11,11 @@ class FilmMenuGenreController: ObservableObject {
     
     let url:String = "https://api.themoviedb.org/3/genre/movie/list?"
     let api_key:String = "api_key=9a8f7a5168ace33d2334ba1fe14a83fb"
+    let currentLocale = "&language="+(Locale.preferredLanguages.first ?? "fr-FR");
 
     // Function to get the list of available genre
     func fetch() async -> FilmGenre?{
-        let filmUrl = URL(string: url + api_key)!
+        let filmUrl = URL(string: url + api_key + currentLocale)!
         let session = URLSession.shared
         do {
             let request = URLRequest(url: filmUrl)

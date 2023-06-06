@@ -9,11 +9,13 @@ import Foundation
 
 class FilmListByGenreController: ObservableObject {
 
+    let currentLocale = "&language="+(Locale.preferredLanguages.first ?? "fr-FR");
     let url:String = "https://api.themoviedb.org/3/discover/movie?api_key=9a8f7a5168ace33d2334ba1fe14a83fb&sort_by=popularity.desc&with_genres="
 
     // Function to get a list of the latest movies from TMDB api
     func fetch(id_genre:Int) async -> ShortFilm?{
-        let filmUrl = URL(string: url + String(id_genre))!
+        print(currentLocale)
+        let filmUrl = URL(string: url + String(id_genre) + String(currentLocale))!
         let session = URLSession.shared
         do {
             let request = URLRequest(url: filmUrl)
